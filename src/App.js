@@ -488,7 +488,7 @@ function PageAdmin({ partie, setPartie }) {
       chargerJoueurs();
       chargerMissions();
     }
-  }, [partie]);
+  }, [partie]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const selectionnerPartie = (p) => {
     setPartie(p);
@@ -554,7 +554,7 @@ function PageAdmin({ partie, setPartie }) {
       tentatives < 100
     );
 
-    for (let i = 0; i < joueursActuels.length; i++) {
+    for (let i = 0; i < joueursActuels.length; i++) { // eslint-disable-line no-loop-func
       const joueur = joueursActuels[i];
       const cible = joueursMelanges[(i + 1) % joueursMelanges.length];
       const mission = missionsActuelles[i];
