@@ -1,0 +1,12 @@
+{
+  "buildCommand": "react-scripts build",
+  "outputDirectory": "build",
+  "framework": "create-react-app"
+}
+```
+
+Sauvegarde, puis dans l'invite de commandes :
+```
+git add .
+git commit -m "Add vercel config"
+git push
