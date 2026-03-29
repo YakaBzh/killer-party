@@ -554,15 +554,22 @@ function PageAdmin({ partie, setPartie }) {
       tentatives < 100
     );
 
-    for (let i = 0; i < joueursActuels.length; i++) { // eslint-disable-line no-loop-func
-      const joueur = joueursActuels[i];
-      const cible = joueursMelanges[(i + 1) % joueursMelanges.length];
-      const mission = missionsActuelles[i];
-      const { error } = await supabase.from('joueurs_partie')
-        .update({ cible_id: cible.id, mission_id: mission?.id || null })
-        .eq('id', joueur.id);
-      if (error) { setMessage('Erreur attribution : ' + error.message); return; }
-    }
+    const attributions = joueursActuels.map((joueur, i) => {
+  const cible = joueursMelanges[(i + 1) % joueursMelanges.length];
+  const mission = missionsActuelles[i];
+  return { joueurId: joueur.id, cibleId: cible.id, missionId: mission?.id || null };
+});
+
+for (const attribution of attributions) {
+  const { error } = await supabase
+    .from('joueurs_partie')
+    .update({
+      cible_id: attribution.cibleId,
+      mission_id: attribution.missionId,
+    })
+    .eq('id', attribution.joueurId);
+  if (error) { setMessage('Erreur attribution : ' + error.message); return; }
+}
 
     await chargerJoueurs();
     setMessage('✅ Missions validées et cibles attribuées !');
